@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,8 +38,19 @@ public class ResourceController {
 	@RequestMapping("/add")
 	public String add(Model model) {
 		System.out.println("Invoking the add method");
+		if(1==1) {
+			System.out.println("About to throw an Exception");
+			throw new RuntimeException();
+		}
+		
 		return "resource_add";
 	}
+	
+	//controller specific Local Exception Handler
+	@ExceptionHandler(value=NullPointerException.class)
+	public String handleError() {
+		return "controller_error";
+	 }
 	
 	@RequestMapping("/save")
 	public String save(@ModelAttribute Resource resource, SessionStatus status) {
